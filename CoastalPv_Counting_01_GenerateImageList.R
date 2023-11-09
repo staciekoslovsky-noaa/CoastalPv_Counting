@@ -56,4 +56,4 @@ if (file.exists(paste0(counted_folder, year))) {
 }
 
 # Export image list to newly created folder
-write.table(to_be_counted, paste0("image_list_", photog_date_id, ".txt"), row.names = FALSE, col.names = FALSE, quote = FALSE)
+write.table(to_be_counted, paste0("coastalPv", photog_date_id, "rgb_images.txt"), row.names = FALSE, col.names = FALSE, quote = FALSE)
