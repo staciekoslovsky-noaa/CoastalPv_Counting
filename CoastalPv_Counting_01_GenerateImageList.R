@@ -27,8 +27,10 @@ photographer <- substr(photog_date_id, 1, 3)
 con <- RPostgreSQL::dbConnect(PostgreSQL(), 
                               dbname = Sys.getenv("pep_db"), 
                               host = Sys.getenv("pep_ip"), 
-                              user = Sys.getenv("pep_admin"), 
-                              password = Sys.getenv("admin_pw"))
+                              user = Sys.getenv("pep_user"), 
+                              password = Sys.getenv("user_pw"))
+                              # user = Sys.getenv("pep_admin"), 
+                              # password = Sys.getenv("admin_pw"))
 to_be_counted <- RPostgreSQL::dbGetQuery(con, paste0("SELECT source_file FROM surv_pv_cst.tbl_image_exif WHERE photog_date_id = \'", photog_date_id, "\' AND use_for_count_lku = \'Y\' ORDER BY source_file"))
 
 # Create folders, as needed
@@ -56,4 +58,4 @@ if (file.exists(paste0(counted_folder, year))) {
 }
 
 # Export image list to newly created folder
-write.table(to_be_counted, paste0("coastalPv", photog_date_id, "rgb_images.txt"), row.names = FALSE, col.names = FALSE, quote = FALSE)
+write.table(to_be_counted, paste0("coastalPv_", photog_date_id, "_rgb_images.txt"), row.names = FALSE, col.names = FALSE, quote = FALSE)
