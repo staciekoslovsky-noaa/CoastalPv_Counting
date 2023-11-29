@@ -2,7 +2,8 @@
 # S. Koslovsky
 
 # Set variables --------------------------------------------------
-photog_date_id <- 'CLC_20230802'
+photog_date_id <- 'e.g., CLC_20230802'
+counter <- 'Your Name'
 
 # Create functions -----------------------------------------------
 # Function to install packages needed
@@ -28,12 +29,18 @@ con <- RPostgreSQL::dbConnect(PostgreSQL(),
                               dbname = Sys.getenv("pep_db"), 
                               host = Sys.getenv("pep_ip"), 
                               # User credentials -- use this one!
-                              user = Sys.getenv("pep_user"), 
+                              user = Sys.getenv("pep_user"),
                               password = Sys.getenv("user_pw"))
                               # Admin credentials -- SMK only
-                              # user = Sys.getenv("pep_admin"), 
+                              # user = Sys.getenv("pep_admin"),
                               # password = Sys.getenv("admin_pw"))
 to_be_counted <- RPostgreSQL::dbGetQuery(con, paste0("SELECT source_file FROM surv_pv_cst.tbl_image_exif WHERE photog_date_id = \'", photog_date_id, "\' AND use_for_count_lku = \'Y\' ORDER BY source_file"))
+
+# Insert records into tbl_image_count
+images <- basename(to_be_counted$source_file)
+for (i in 1:length(images)) {
+  RPostgreSQL::dbSendQuery(con, paste0("INSERT INTO surv_pv_cst.tbl_image_count (image_name, count_type_lku, counter, count_compromised, representative_image) SELECT \'", images[i], "\', \'P\', \'", counter, "\', \'False\', \'False\' WHERE NOT EXISTS (SELECT image_name FROM surv_pv_cst.tbl_image_count WHERE image_name = \'", images[i], "\')"))
+}
 
 # Create folders, as needed
 counted_folder <- '\\\\akc0ss-n086\\NMML_Polar_Imagery\\Surveys_HS\\Coastal\\Counted\\'
