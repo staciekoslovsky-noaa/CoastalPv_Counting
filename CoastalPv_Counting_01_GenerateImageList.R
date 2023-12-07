@@ -39,7 +39,7 @@ to_be_counted <- RPostgreSQL::dbGetQuery(con, paste0("SELECT source_file FROM su
 # Insert records into tbl_image_count
 images <- basename(to_be_counted$source_file)
 for (i in 1:length(images)) {
-  RPostgreSQL::dbSendQuery(con, paste0("INSERT INTO surv_pv_cst.tbl_image_count (image_name, count_type_lku, counter, count_compromised, representative_image) SELECT \'", images[i], "\', \'P\', \'", counter, "\', \'False\', \'False\' WHERE NOT EXISTS (SELECT image_name FROM surv_pv_cst.tbl_image_count WHERE image_name = \'", images[i], "\')"))
+  RPostgreSQL::dbSendQuery(con, paste0("INSERT INTO surv_pv_cst.tbl_image_count (image_name, count_type_lku, count_by, count_compromised, representative_image) SELECT \'", images[i], "\', \'P\', \'", counter, "\', \'False\', \'False\' WHERE NOT EXISTS (SELECT image_name FROM surv_pv_cst.tbl_image_count WHERE image_name = \'", images[i], "\')"))
 }
 
 # Create folders, as needed
