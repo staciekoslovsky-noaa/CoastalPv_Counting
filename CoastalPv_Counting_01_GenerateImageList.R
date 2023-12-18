@@ -2,7 +2,7 @@
 # S. Koslovsky
 
 # Set variables --------------------------------------------------
-photog_date_id <- 'e.g., CLC_20230802'
+photog_date_id <- 'CLC_20230802'
 counter <- 'Your Name'
 
 # Create functions -----------------------------------------------
