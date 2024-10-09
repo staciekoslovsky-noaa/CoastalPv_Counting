@@ -28,12 +28,9 @@ photographer <- substr(photog_date_id, 1, 3)
 con <- RPostgreSQL::dbConnect(PostgreSQL(), 
                               dbname = Sys.getenv("pep_db"), 
                               host = Sys.getenv("pep_ip"), 
-                              # User credentials -- use this one!
                               user = Sys.getenv("pep_user"),
                               password = Sys.getenv("user_pw"))
-                              # Admin credentials -- SMK only
-                              # user = Sys.getenv("pep_admin"),
-                              # password = Sys.getenv("admin_pw"))
+
 to_be_counted <- RPostgreSQL::dbGetQuery(con, paste0("SELECT source_file FROM surv_pv_cst.tbl_image_exif WHERE photog_date_id = \'", photog_date_id, "\' AND use_for_count_lku = \'Y\' ORDER BY source_file"))
 
 # Insert records into tbl_image_count

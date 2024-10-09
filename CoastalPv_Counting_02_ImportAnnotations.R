@@ -36,12 +36,8 @@ setwd(wd)
 con <- RPostgreSQL::dbConnect(PostgreSQL(), 
                               dbname = Sys.getenv("pep_db"), 
                               host = Sys.getenv("pep_ip"), 
-                              # User credentials -- use this one!
                               user = Sys.getenv("pep_user"),
                               password = Sys.getenv("user_pw"))
-                              # Admin credentials -- SMK only
-                              # user = Sys.getenv("pep_admin"),
-                              # password = Sys.getenv("admin_pw"))
 
 # Delete data from tables, if previously imported
 RPostgreSQL::dbSendQuery(con, paste0("DELETE FROM surv_pv_cst.tbl_detections_manualreview_rgb WHERE photog_date_id = \'", photog_date_id, "\'"))
