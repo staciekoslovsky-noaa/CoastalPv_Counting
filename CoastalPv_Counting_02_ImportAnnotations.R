@@ -2,8 +2,8 @@
 # S. Koslovsky
 
 # Set variables --------------------------------------------------
-photog_date_id <- 'CLC_20230802'
-file_name <- 'coastalPv_CLC_20230802_rgb_annotations.csv'
+photog_date_id <- 'JKJ_20200912'
+file_name <- 'coastalPv_JKJ_20200912_rgb_annotations.csv'
 
 # Create functions -----------------------------------------------
 # Function to install packages needed
@@ -51,6 +51,7 @@ manual <- read.csv(file_name, skip = 2, header = FALSE, stringsAsFactors = FALSE
     
 if (nrow(manual) > 0) {
   manual <- manual %>%
+    filter(!is.na(frame_number)) %>%
     mutate(image_name = basename(sapply(strsplit(image_name, split= "\\/"), function(x) x[length(x)]))) %>%
     mutate(id = 1:n()) %>% # + manual_id$max) %>%
     mutate(detection_file = file_name) %>%
